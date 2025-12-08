@@ -55,6 +55,9 @@ CREATE TABLE performance (
 	PerformerId INT REFERENCES performer(performerId)
 );
 
+ALTER TABLE performance
+	ADD COLUMN PerformanceId SERIAL PRIMARY KEY;
+
 CREATE FUNCTION validPerformance()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -62,8 +65,8 @@ BEGIN
 		SELECT 1 FROM performance p
         WHERE p.StageId = NEW.StageId OR p.PerformerId = NEW.PerformerId
           AND p.PerformanceId <> NEW.PerformanceId
-          AND NEW.StartTime < p.EndTime
-          AND NEW.EndTime > p.StartTime
+          AND NEW.BeginningTime < p.EndTime
+          AND NEW.EndTime > p.BeginningTime
     ) THEN
         RAISE EXCEPTION 'Overlaping performances';
     END IF;
@@ -285,9 +288,3 @@ CREATE TRIGGER trgCheckForMembership
 BEFORE INSERT ON membershipCard
 FOR EACH ROW
 EXECUTE FUNCTION CheckForMembership();
-
-
-
-
-
-
