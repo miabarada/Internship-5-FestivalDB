@@ -115,7 +115,7 @@ CREATE TABLE purchaseItem(
 	PurchaseItemId SERIAL PRIMARY KEY,
 	Quantity INT NOT NULL,
 	UnitPrice NUMERIC,
-	TotalPrice NUMERIC GENERATED ALWAYS AS (UnitPrice * Quantity),
+	TotalPrice NUMERIC,
 	TicketId INT REFERENCES ticket(TicketId),
 	PurchaseId INT REFERENCES purchase(PurchaseId)
 );
@@ -128,7 +128,7 @@ CREATE TABLE workshop(
 	Name VARCHAR(100) NOT NULL,
 	Difficulty VARCHAR(100),
 	Capacity INT,
-	Duration TIMESTAMP,
+	Duration VARCHAR(20),
 	RequiresKnowledge BOOL DEFAULT FALSE,
 	FestivalId INT REFERENCES festival(FestivalId)
 );
